@@ -48,56 +48,58 @@ export const register = async (req, res) => {
 
     await newUser.save();
 
-    const { data, error } = await transporter.emails.send({
-      from: "Noto <onboarding@resend.dev>",
-      to: [email],
-      subject: "Verify your Noto account",
+    try {
+      await transporter.sendMail({
+        from: `"Noto" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: "Verify your Noto account",
 
-      html: `
-        <div style="
-          font-family: Arial, sans-serif;
-          max-width: 500px;
-          margin: auto;
-          padding: 30px;
-          background: #111;
-          color: white;
-          border-radius: 12px;
-        ">
-          <h2>Welcome to Noto 👋</h2>
-    
-          <p>
-            Thanks for creating your account.
-            Use the OTP below to verify your email address.
-          </p>
-    
+        html: `
           <div style="
-            font-size: 32px;
-            font-weight: bold;
-            letter-spacing: 8px;
-            text-align: center;
-            padding: 20px;
-            margin: 20px 0;
-            background: #222;
-            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background: #111;
+            color: white;
+            border-radius: 12px;
           ">
-            ${otp}
+            <h2>Welcome to Noto 👋</h2>
+    
+            <p>
+              Thanks for creating your account.
+              Use the OTP below to verify your email address.
+            </p>
+    
+            <div style="
+              font-size: 32px;
+              font-weight: bold;
+              letter-spacing: 8px;
+              text-align: center;
+              padding: 20px;
+              margin: 20px 0;
+              background: #222;
+              border-radius: 8px;
+            ">
+              ${otp}
+            </div>
+    
+            <p style="color: #999;">
+              This OTP will expire in 10 minutes.
+            </p>
+    
+            <p>
+              If you didn't create a Noto account, you can ignore this email.
+            </p>
           </div>
-    
-          <p style="color: #999;">
-            This OTP will expire in 10 minutes.
-          </p>
-    
-          <p>
-            If you didn't create a Noto account, you can ignore this email.
-          </p>
-        </div>
-      `,
-    });
+        `,
+      });
+    } catch (emailError) {
+      console.error("EMAIL ERROR:", emailError);
 
-    if (error) {
-      console.error("EMAIL ERROR:", error);
       return res.status(500).json({
         message: "Failed to send verification email",
+        error: emailError.message,
       });
     }
 

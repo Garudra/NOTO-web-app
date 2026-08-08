@@ -13,7 +13,7 @@ const Pinned = () => {
   useEffect(() => {
     const fetchPinnedNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/note/pinned", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/pinned`, {
           withCredentials: true,
         });
 
@@ -31,7 +31,7 @@ const Pinned = () => {
   const handleTogglePin = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:3000/api/note/toggle-pin/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/note/toggle-pin/${id}`,
         {},
         {
           withCredentials: true,
@@ -48,7 +48,7 @@ const Pinned = () => {
 
   const handleDeleteNote = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/note/delete/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete/${id}`, {
         withCredentials: true,
       });
 

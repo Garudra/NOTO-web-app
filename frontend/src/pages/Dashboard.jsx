@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/note/get", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/get`, {
           withCredentials: true,
         });
 
@@ -33,7 +33,7 @@ const Dashboard = () => {
   const handleTogglePin = async (id) => {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/api/note/toggle-pin/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/note/toggle-pin/${id}`,
         {},
         {
           withCredentials: true,
@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   const handleDeleteNote = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/note/delete/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete/${id}`, {
         withCredentials: true,
       });
 

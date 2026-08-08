@@ -27,7 +27,7 @@ const NewNote = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/api/note/create", data, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/note/create`, data, {
         withCredentials: true,
       });
 

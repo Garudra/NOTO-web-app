@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/auth/me",
+          `${import.meta.env.VITE_API_URL}/api/auth/me`,
           {
             withCredentials: true,
           }
@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
       setLoggingOut(true);
 
       await axios.post(
-        "http://localhost:3000/api/auth/logout",
+        `${import.meta.env.VITE_API_URL}/api/auth/logout`,
         {},
         {
           withCredentials: true,

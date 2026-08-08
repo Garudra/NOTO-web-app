@@ -28,7 +28,7 @@ const VerifyEmail = () => {
       setLoading(true);
 
       await axios.post(
-        "http://localhost:3000/api/auth/verify-email",
+        `${import.meta.env.VITE_API_URL}/api/auth/verify-email`,
         {
           email,
           otp,

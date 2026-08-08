@@ -23,7 +23,7 @@ const UserLogin = () => {
         password,
       };
 
-      await axios.post("http://localhost:3000/api/auth/login", userData, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, userData, {
         withCredentials: true,
       });
 
@@ -143,7 +143,7 @@ const UserLogin = () => {
             <button
               type="button"
               onClick={() => {
-                window.location.href = "http://localhost:3000/api/auth/google";
+                window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
               }}
               className="w-full flex items-center justify-center gap-3 border border-white/15 rounded-lg py-2.5 text-white hover:bg-white/10 transition cursor-pointer"
             >

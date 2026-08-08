@@ -48,9 +48,9 @@ export const register = async (req, res) => {
 
     await newUser.save();
 
-    const mailInfo = await transporter.sendMail({
-      from: `"Noto" <${process.env.EMAIL_USER}>`,
-      to: email,
+    const { data, error } = await transporter.emails.send({
+      from: "Noto <onboarding@resend.dev>",
+      to: [email],
       subject: "Verify your Noto account",
 
       html: `
@@ -94,6 +94,13 @@ export const register = async (req, res) => {
       `,
     });
 
+    if (error) {
+      console.error("EMAIL ERROR:", error);
+      return res.status(500).json({
+        message: "Failed to send verification email",
+      });
+    }
+
     return res.status(201).json({
       message: "Registration successful. Please verify your email.",
     });
@@ -101,7 +108,8 @@ export const register = async (req, res) => {
     console.error("REGISTER ERROR:", error);
 
     return res.status(500).json({
-      message: "Error registering user", error: error.message,
+      message: "Error registering user",
+      error: error.message,
     });
   }
 };
